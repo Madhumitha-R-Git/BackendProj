@@ -48,10 +48,12 @@ app.post("/register",async (req,res)=>
         pass:req.body.pass
 
     })    
-        const oneuser = {values}
+        
     try{
-       const token = process.env.JWT_KEY
-       const accessToken = jwt.sign(oneuser,token)
+        const oneuser = values
+        const token = process.env.JWT_KEY
+        console.log(token)
+        const accessToken = jwt.sign({oneuser},token)
      console.log("PPPP")
      const salt = await bcrypt.genSalt(10)
      const new_pass = await bcrypt.hashSync(req.body.pass,salt)
@@ -60,9 +62,11 @@ app.post("/register",async (req,res)=>
      //console.log(new_pass)
      values.pass=new_pass
      await values.save()
-     res.json({accessToken:accessToken})
+  //res.json({accessToken:accessToken})
+   res.json(values)
      //res.json(accessToken)
      //res.send(accessToken)
+     //res.send("ded")
     }
     catch(err)
     {
